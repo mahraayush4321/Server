@@ -1,8 +1,7 @@
 import { Timestamp } from "mongodb";
 import mongoose from "mongoose";
-import { required } from "nodemon/lib/config";
 
-const userSchema = new userSchema(
+const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
