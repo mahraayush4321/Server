@@ -12,7 +12,9 @@ mongoose
     "mongodb+srv://tanishqmahra:Aizen12345@cluster0.uwncpoa.mongodb.net/socialMedia?retryWrites=true&w=majority"
   )
   .then(() => {
+    console.log("db connected");
     app.listen(5000, () => {
       console.log("listening");
     });
-  });
+  })
+  .catch(console.error);
