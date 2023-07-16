@@ -1,20 +1,26 @@
 import express from "express";
 import bodyparser from "body-parser";
 import mongoose from "mongoose";
+import Auth from "./Routes/Auth.js";
+import dotenv from "dotenv";
 
 const app = express();
 
 app.use(bodyparser.json({ limit: "30mb", extended: true }));
 app.use(bodyparser.urlencoded({ limit: "30mb", extended: true }));
 
+dotenv.config();
+
 mongoose
-  .connect(
-    "mongodb+srv://tanishqmahra:Aizen12345@cluster0.uwncpoa.mongodb.net/socialMedia?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+  })
   .then(() => {
     console.log("db connected");
-    app.listen(5000, () => {
-      console.log("listening");
+    app.listen(process.env.PORT, () => {
+      console.log(`listening to port ${process.env.PORT}`);
     });
   })
   .catch(console.error);
+
+app.use("/auth", Auth);
