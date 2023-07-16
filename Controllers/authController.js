@@ -3,7 +3,7 @@ import userModal from "../Models/UserModal.js";
 export const registerUser = async (req, res) => {
   const { userName, password, firstName, lastName } = req.body;
 
-  const newUser = new UserModal({ userName, password, firstName, lastName });
+  const newUser = new userModal({ userName, password, firstName, lastName });
 
   try {
     await newUser.save();
