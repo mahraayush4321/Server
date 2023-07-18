@@ -1,9 +1,18 @@
 import userModal from "../Models/UserModal.js";
+import bcrypt from "bcrypt";
 
 export const registerUser = async (req, res) => {
-  const { userName, password, firstName, lastName } = req.body;
+  const { username, password, firstName, lastName } = req.body;
 
-  const newUser = new userModal({ userName, password, firstName, lastName });
+  const salt = await bcrypt.genSalt(10);
+  const hashpass = await bcrypt.hash(password, salt);
+
+  const newUser = new userModal({
+    username,
+    password: hashpass,
+    firstName,
+    lastName,
+  });
 
   try {
     await newUser.save();
