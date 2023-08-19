@@ -1,4 +1,4 @@
-import userModal from "../Models/UserModal";
+import userModal from "../Models/UserModal.js";
 
 export const getUser = async (req, res) => {
   const id = req.params.id;
