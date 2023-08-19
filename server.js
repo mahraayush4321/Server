@@ -2,6 +2,7 @@ import express from "express";
 import bodyparser from "body-parser";
 import mongoose from "mongoose";
 import Auth from "./Routes/Auth.js";
+import user from "./Routes/user.route.js";
 import dotenv from "dotenv";
 
 const app = express();
@@ -24,3 +25,4 @@ mongoose
   .catch(console.error);
 
 app.use("/auth", Auth);
+app.use("/user", user);
