@@ -21,3 +21,23 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//login
+
+export const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await userModal.findOne({ username: username });
+
+    if (user) {
+      const valid = await bcrypt.compare(password, user.password);
+
+      valid ? res.status(200).json(user) : res.status(400).json("Wrong pass");
+    } else {
+      res.status(404).json("user doesn't exists");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
