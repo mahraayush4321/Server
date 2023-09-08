@@ -1,7 +1,7 @@
 import express from "express";
 import bodyparser from "body-parser";
 import mongoose from "mongoose";
-import { readdirSync } from "fs";
+import { readdir } from "fs/promises";
 import dotenv from "dotenv";
 
 const app = express();
@@ -9,19 +9,23 @@ const app = express();
 app.use(bodyparser.json({ limit: "30mb", extended: true }));
 app.use(bodyparser.urlencoded({ limit: "30mb", extended: true }));
 
-readdirSync("./Routes").forEach((file) => {
-  if (file.endsWith(".mjs")) {
-    const routeModule = import(`./Routes/${file}`);
-    const routeName = file.replace(".mjs", "");
-    routeModule
-      .then((module) => {
-        app.use(`/${routeName}`, module.default);
-      })
-      .catch((error) => {
-        console.error(`Error loading route ${file}:`, error);
-      });
+async function loadRoutes() {
+  try {
+    const routeFiles = await readdir("./Routes");
+
+    for (const file of routeFiles) {
+      if (file.endsWith(".mjs")) {
+        const routeModule = await import(`./Routes/${file}`);
+        const routeName = file.replace(".mjs", "");
+        app.use(`/${routeName}`, routeModule.default);
+      }
+    }
+  } catch (error) {
+    console.error("Error loading routes:", error);
   }
-});
+}
+
+loadRoutes();
 
 dotenv.config();
 
