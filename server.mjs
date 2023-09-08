@@ -25,6 +25,16 @@ readdirSync("./Routes").forEach((file) => {
 
 dotenv.config();
 
+app.get("/electronic/:id0?/:id1?", (req, res) => {
+  if (req.params.id0 == undefined) {
+    res.send("Electronics");
+  } else if (req.params.id1 == undefined) {
+    res.send(req.params.id0);
+  } else {
+    res.send(req.params.id1);
+  }
+});
+
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
