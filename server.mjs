@@ -3,7 +3,6 @@ import bodyparser from "body-parser";
 import mongoose from "mongoose";
 import { readdir } from "fs/promises";
 import dotenv from "dotenv";
-import { getUser } from "./Controllers/userController.js";
 
 const app = express();
 
