@@ -39,3 +39,19 @@ export const updateUser = async (req, res) => {
     res.status(403).json("access denied");
   }
 };
+export const deleteUser = async (req, res) => {
+  const id = req.params.id;
+
+  const { currentUserId } = req.body;
+
+  if (currentUserId === id) {
+    try {
+      await userModal.findByIdAndDelete(id);
+      res.status(200).json("user removed successfully ");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    res.status(403).json("you can only delete your own id");
+  }
+};
