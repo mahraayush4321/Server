@@ -1,5 +1,5 @@
 import userModal from "../Models/UserModal.js";
-
+import bcrypt from "bcrypt";
 export const getUser = async (req, res) => {
   const id = req.params.id;
 
@@ -23,6 +23,11 @@ export const updateUser = async (req, res) => {
 
   const { currentUserId, password } = req.body;
 
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(password, salt);
+  }
+
   if (id === currentUserId) {
     try {
       const user = await userModal.findByIdAndUpdate(id, req.body, {
@@ -30,5 +35,7 @@ export const updateUser = async (req, res) => {
       });
       res.status(200).json(user);
     } catch (error) {}
+  } else {
+    res.status(403).json("access denied");
   }
 };
