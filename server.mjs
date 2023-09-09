@@ -3,6 +3,7 @@ import bodyparser from "body-parser";
 import mongoose from "mongoose";
 import { readdir } from "fs/promises";
 import dotenv from "dotenv";
+import { getUser } from "./Controllers/userController.js";
 
 const app = express();
 
@@ -18,6 +19,7 @@ async function loadRoutes() {
         const routeModule = await import(`./Routes/${file}`);
         const routeName = file.replace(".mjs", "");
         app.use(`/${routeName}`, routeModule.default);
+        console.log(`Route loaded: /${routeName}`);
       }
     }
   } catch (error) {
