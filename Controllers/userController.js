@@ -17,3 +17,18 @@ export const getUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const updateUser = async (req, res) => {
+  const id = req.params.id;
+
+  const { currentUserId, password } = req.body;
+
+  if (id === currentUserId) {
+    try {
+      const user = await userModal.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+      res.status(200).json(user);
+    } catch (error) {}
+  }
+};
