@@ -1,34 +1,17 @@
 import express from "express";
 import bodyparser from "body-parser";
 import mongoose from "mongoose";
-import { readdir } from "fs/promises";
 import dotenv from "dotenv";
+import { loadRoutes } from "./Routeload/load.js";
 
 const app = express();
 
 app.use(bodyparser.json({ limit: "30mb", extended: true }));
 app.use(bodyparser.urlencoded({ limit: "30mb", extended: true }));
 
-async function loadRoutes() {
-  try {
-    const routeFiles = await readdir("./Routes");
-
-    for (const file of routeFiles) {
-      if (file.endsWith(".mjs")) {
-        const routeModule = await import(`./Routes/${file}`);
-        const routeName = file.replace(".mjs", "");
-        app.use(`/${routeName}`, routeModule.default);
-        console.log(`Route loaded: /${routeName}`);
-      }
-    }
-  } catch (error) {
-    console.error("Error loading routes:", error);
-  }
-}
-
-loadRoutes();
-
 dotenv.config();
+
+loadRoutes(app);
 
 app.get("/electronic/:id0?/:id1?", (req, res) => {
   if (req.params.id0 == undefined) {
