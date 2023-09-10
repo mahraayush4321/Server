@@ -10,7 +10,7 @@ process.on("SIGINT", shutDown);
 function shutDown() {
   console.log("received signal to shutdown");
   server.close(() => {
-    console.log("Closed out remaining connections");
+    console.log("closing");
     process.exit(0);
   });
 }
