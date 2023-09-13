@@ -4,16 +4,23 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { loadRoutes } from "./Routeload/load.js";
 import http from "http";
+import { fileURLToPath } from "url";
 import { Server } from "socket.io";
 import path from "path";
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "public")));
+
 const server = http.createServer(app);
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log(socket.id);
+  console.log("A user connected ");
 
   socket.on("chat message", (msg) => {
     io.emit("chat message", msg);

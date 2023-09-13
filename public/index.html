@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.io Chat</title>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <input id="message-input" autocomplete="off" /><button id="send-button">Send</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // DOM elements
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const messagesList = document.getElementById('messages');
+
+        // Listen for incoming messages
+        socket.on('chat message', (msg) => {
+            const li = document.createElement('li');
+            li.textContent = msg;
+            messagesList.appendChild(li);
+        });
+
+        // Send a message when the Send button is clicked
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value;
+            socket.emit('chat message', message);
+            messageInput.value = '';
+        });
+
+        // Handle Enter key press
+        messageInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
