@@ -1,4 +1,4 @@
-import { app, server, io } from "./app.js";
+import { server } from "./app.js";
 
 server.listen(process.env.PORT, () => {
   console.log(`listening to port ${process.env.PORT}`);
