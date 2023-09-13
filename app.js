@@ -3,8 +3,26 @@ import bodyparser from "body-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { loadRoutes } from "./Routeload/load.js";
+import http from "http";
+import { Server } from "socket.io";
+import path from "path";
 
 const app = express();
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
 
 app.use(bodyparser.json({ limit: "30mb", extended: true }));
 app.use(bodyparser.urlencoded({ limit: "30mb", extended: true }));
@@ -22,4 +40,4 @@ mongoose
   })
   .catch(console.error);
 
-export default app;
+export { app, server, io };
