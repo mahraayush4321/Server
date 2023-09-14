@@ -28,12 +28,6 @@
             socket.emit('chat message', message);
             messageInput.value = '';
         });
-
-        messageInput.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                sendButton.click();
-            }
-        });
     </script>
 </body>
 </html>
