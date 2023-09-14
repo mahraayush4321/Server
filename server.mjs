@@ -3,7 +3,7 @@ import http from "http";
 import { initSocket } from "./socket/socket.js";
 
 const httpServer = http.createServer(app);
-const io = initSocket(httpServer);
+initSocket(httpServer);
 
 httpServer.listen(process.env.PORT, () => {
   console.log(`listening to port ${process.env.PORT}`);
