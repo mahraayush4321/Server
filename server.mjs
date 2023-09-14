@@ -1,6 +1,11 @@
-import { server } from "./app.js";
+import { app } from "./app.js";
+import http from "http";
+import { initSocket } from "./socket/socket.js";
 
-server.listen(process.env.PORT, () => {
+const httpServer = http.createServer(app);
+const io = initSocket(httpServer);
+
+httpServer.listen(process.env.PORT, () => {
   console.log(`listening to port ${process.env.PORT}`);
 });
 
@@ -9,7 +14,7 @@ process.on("SIGINT", shutDown);
 
 function shutDown() {
   console.log("received signal to shutdown");
-  server.close(() => {
+  httpServer.close(() => {
     console.log("closing");
     process.exit(0);
   });
