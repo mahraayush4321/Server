@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 import { loadRoutes } from "./Routeload/load.js";
 import { fileURLToPath } from "url";
 import path from "path";
-import { initSocket } from "./socket/socket.js";
 
 const app = express();
 
