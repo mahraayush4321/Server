@@ -8,7 +8,6 @@ export function initSocket(server) {
     socket.on("chat message", (msg) => {
       io.emit("chat message", msg);
     });
-
     socket.on("disconnect", () => {
       console.log("User disconnected");
     });
