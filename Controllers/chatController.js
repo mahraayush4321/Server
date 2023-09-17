@@ -5,8 +5,8 @@ export const createChats = async (req, res) => {
     users: [req.body.senderId, req.body.receiverId],
   });
   try {
-    const result = await newChat.save();
-    res.status(200).json(result);
+    const data = await newChat.save();
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json(error);
   }
