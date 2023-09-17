@@ -6,7 +6,7 @@ export function initSocket(server) {
     console.log("User connected");
     console.log(socket.id);
     socket.on("chat message", (msg) => {
-      io.emit("chat message", msg);
+      io.emit("chat message", msg); //io emit to all clients
     });
     socket.on("disconnect", () => {
       console.log("User disconnected");
