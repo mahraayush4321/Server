@@ -1,10 +1,10 @@
 import MsgModel from "../Models/MessageModel.js";
 
 export const addMessage = async (req, res) => {
-  const { chatId, senderId, text } = req.body;
+  const { senderId, receiverId, text } = req.body;
   const message = new MsgModel({
-    chatId,
     senderId,
+    receiverId,
     text,
   });
   try {
