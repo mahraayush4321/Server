@@ -1,19 +1,20 @@
 import MsgModel from "../Models/MessageModel.js";
+import { asyncHandler } from "../utils/asyncErrorhandler.js";
 
-export const addMessage = async (req, res) => {
+export const addMessage = asyncHandler(async (req, res, next) => {
   const { chatId, senderId, text } = req.body;
-  const message = new MsgModel({
-    chatId,
-    senderId,
-    text,
-  });
   try {
+    const message = new MsgModel({
+      chatId,
+      senderId,
+      text,
+    });
     const result = await message.save();
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
-};
+});
 
 export const getMessage = async (req, res) => {
   const { chatId } = req.params;
