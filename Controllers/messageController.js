@@ -16,12 +16,12 @@ export const addMessage = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const getMessage = async (req, res) => {
+export const getMessage = asyncHandler(async (req, res, next) => {
   const { chatId } = req.params;
   try {
     const result = await MsgModel.find({ chatId });
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
-};
+});

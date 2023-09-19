@@ -7,9 +7,11 @@ const MsgSchema = new mongoose.Schema(
     },
     senderId: {
       type: String,
+      required: true,
     },
     text: {
       type: String,
+      required: true,
     },
   },
   {

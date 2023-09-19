@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { loadRoutes } from "./Routeload/load.js";
 import { fileURLToPath } from "url";
 import path from "path";
+import { errorHandler } from "./middleware/errorhandler.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(bodyparser.urlencoded({ limit: "30mb", extended: true }));
 dotenv.config();
 
 loadRoutes(app);
+
+app.use(errorHandler);
 
 mongoose
   .connect(process.env.MONGO_URI, {
