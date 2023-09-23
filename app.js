@@ -32,4 +32,4 @@ mongoose
   })
   .catch(console.error);
 
-export { app };
+export default app;

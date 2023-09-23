@@ -1,13 +1,7 @@
 import { Server } from "socket.io";
-import { createClient } from "redis";
 
 export function initSocket(server) {
   const io = new Server(server);
-  const client = createClient();
-
-  client.on("error", (err) => {
-    console.log("redis client error", err);
-  });
 
   io.on("connection", (socket) => {
     console.log("User connected");

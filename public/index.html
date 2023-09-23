@@ -16,6 +16,14 @@
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-button');
         const messagesList = document.getElementById('messages');
+        const predefinedMessagesList = document.getElementById('predefined-messages');
+
+        socket.on('new-predefined-message', (msg) => {
+            const li = document.createElement('li');
+            li.textContent = msg;
+            predefinedMessagesList.appendChild(li); 
+        });
+
 
         socket.on('chat message', (msg) => {
             const li = document.createElement('li');
