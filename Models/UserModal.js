@@ -23,13 +23,6 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       required: false,
     },
-    profilePicture: String,
-    coverPicture: String,
-    about: String,
-    livesIn: String,
-    worksAt: String,
-    followers: [],
-    following: [],
   },
   { timestamps: true }
 );
