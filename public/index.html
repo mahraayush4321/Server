@@ -8,6 +8,7 @@
 <body>
     <ul id="messages"></ul>
     <input id="message-input"/><button id="send-button">Send</button>
+    <button id="help-button">How can we help you?</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -16,20 +17,26 @@
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-button');
         const messagesList = document.getElementById('messages');
-        const predefinedMessagesList = document.getElementById('predefined-messages');
-
-        socket.on('new-predefined-message', (msg) => {
-            const li = document.createElement('li');
-            li.textContent = msg;
-            predefinedMessagesList.appendChild(li); 
-        });
-
+        const helpButton = document.getElementById('help-button');
 
         socket.on('chat message', (msg) => {
             const li = document.createElement('li');
             li.textContent = msg;
             messagesList.appendChild(li);        
         });
+
+        socket.on('messageArray', (messages) => {
+            messages.forEach((message) => {
+                const li = document.createElement('li');
+                li.textContent = message;
+                messagesList.appendChild(li);
+            });
+        });
+
+        helpButton.addEventListener('click',()=>{
+            console.log("Help button clicked");
+            socket.emit("help");
+        })
 
         sendButton.addEventListener('click', () => {
             const message = messageInput.value;
