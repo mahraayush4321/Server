@@ -21,6 +21,7 @@ export const addMessage = asyncHandler(async (req, res, next) => {
 
 export const getMessage = asyncHandler(async (req, res, next) => {
   const { chatId } = req.params;
+  //const key = `chat:${chatId}`
   try {
     const cachedata = await redis.get(`chat:${chatId}`);
     if (cachedata) {
