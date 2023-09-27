@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { loadRoutes } from "./Routeload/load.js";
 import { fileURLToPath } from "url";
 import path from "path";
+import { errorHandler } from "./middleware/errorhandler.js";
 
 const app = express();
 
@@ -20,6 +21,8 @@ dotenv.config();
 
 loadRoutes(app);
 
+app.use(errorHandler);
+
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -29,4 +32,4 @@ mongoose
   })
   .catch(console.error);
 
-export { app };
+export default app;

@@ -1,13 +1,10 @@
 import chatModel from "../Models/chatModel.js";
+import { asyncHandler } from "../utils/asyncErrorhandler.js";
 
-export const createChats = async (req, res) => {
+export const createChats = asyncHandler(async (req, res, next) => {
   const newChat = new chatModel({
     users: [req.body.senderId, req.body.receiverId],
   });
-  try {
-    const result = await newChat.save();
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
+  const data = await newChat.save();
+  res.status(200).json(data);
+});

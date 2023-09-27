@@ -1,24 +1,20 @@
 import userModal from "../Models/UserModal.js";
 import bcrypt from "bcrypt";
+import { asyncHandler } from "../utils/asyncErrorhandler.js";
 
-export const getUser = async (req, res) => {
+export const getUser = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
-  try {
-    const user = await userModal.findById(id);
+  const user = await userModal.findById(id);
 
-    if (user) {
-      const { password, ...other } = user._doc;
-
-      res.status(200).json(other);
-    } else {
-      res.status(404).json("No such user exists");
-    }
-  } catch (error) {
-    res.status(500).json(error);
+  if (user) {
+    const { password, ...other } = user._doc;
+    res.status(200).json(other);
+  } else {
+    res.status(404).json("No such user exists");
   }
-};
+});
 
-export const updateUser = async (req, res) => {
+export const updateUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   const { currentUserId, password } = req.body;
@@ -27,31 +23,24 @@ export const updateUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     req.body.password = await bcrypt.hash(password, salt);
   }
-
   if (id === currentUserId) {
-    try {
-      const user = await userModal.findByIdAndUpdate(id, req.body, {
-        new: true,
-      });
-      res.status(200).json(user);
-    } catch (error) {}
+    const user = await userModal.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ status: "ok", msg: user });
   } else {
     res.status(403).json("access denied");
   }
-};
-export const deleteUser = async (req, res) => {
+});
+export const deleteUser = asyncHandler(async (req, res) => {
   const id = req.params.id;
 
   const { currentUserId } = req.body;
 
   if (currentUserId === id) {
-    try {
-      await userModal.findByIdAndDelete(id);
-      res.status(200).json("user removed successfully ");
-    } catch (error) {
-      res.status(500).json(error);
-    }
+    await userModal.findByIdAndDelete(id);
+    res.status(200).json({ status: "ok", msg: "user removed successfully " });
   } else {
     res.status(403).json("you can only delete your own id");
   }
-};
+});

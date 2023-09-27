@@ -8,6 +8,7 @@
 <body>
     <ul id="messages"></ul>
     <input id="message-input"/><button id="send-button">Send</button>
+    <button id="help-button">How can we help you?</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -20,21 +21,26 @@
         socket.on('chat message', (msg) => {
             const li = document.createElement('li');
             li.textContent = msg;
-            messagesList.appendChild(li);
+            messagesList.appendChild(li);        
         });
 
+        socket.on('messageArray', (messages) => {
+            messages.forEach((message) => {
+                const li = document.createElement('li');
+                li.textContent = message;
+                messagesList.appendChild(li);
+            });
+        });
         sendButton.addEventListener('click', () => {
             const message = messageInput.value;
             socket.emit('chat message', message);
             messageInput.value = '';
         });
-
         messageInput.addEventListener('keyup',(event)=>{
             if(event.key=="Enter"){
                 sendButton.click();
             }
         })
-
     </script>
 </body>
 </html>
