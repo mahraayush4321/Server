@@ -15,17 +15,6 @@ export function initSocket(server) {
       console.log(msg);
     });
 
-    socket.on("help", (data) => {
-      const helpMessages = [
-        "Here are some ways we can help:",
-        "get your invoice",
-        "know about your orders",
-      ];
-      helpMessages.forEach((message) => {
-        socket.emit("message", message);
-      });
-    });
-
     socket.on("disconnect", () => {
       console.log("User disconnected");
     });

@@ -17,7 +17,6 @@
         const messageInput = document.getElementById('message-input');
         const sendButton = document.getElementById('send-button');
         const messagesList = document.getElementById('messages');
-        const helpButton = document.getElementById('help-button');
 
         socket.on('chat message', (msg) => {
             const li = document.createElement('li');
@@ -32,12 +31,6 @@
                 messagesList.appendChild(li);
             });
         });
-
-        helpButton.addEventListener('click',()=>{
-            console.log("Help button clicked");
-            socket.emit("help");
-        })
-
         sendButton.addEventListener('click', () => {
             const message = messageInput.value;
             socket.emit('chat message', message);
