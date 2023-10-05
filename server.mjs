@@ -1,6 +1,7 @@
 import { app } from "./app.js";
 import http from "http";
 import { initSocket } from "./socket/socket.js";
+import "./cluster.js";
 
 const httpServer = http.createServer(app);
 initSocket(httpServer);

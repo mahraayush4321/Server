@@ -1,6 +1,6 @@
 import MsgModel from "../Models/MessageModel.js";
 import redis from "../redis/redis.js";
-import { asyncHandler } from "../utils/asyncErrorhandler.js";
+import { asyncHandler } from "../utils/asyncErrorHandler.js";
 
 export const addMessage = asyncHandler(async (req, res, next) => {
   const { chatId, senderId, text } = req.body;
